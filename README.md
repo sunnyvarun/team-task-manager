@@ -1,126 +1,150 @@
+
 # TaskFlow - Team Task Manager
 
-A production-ready team task management application built with modern web technologies. TaskFlow enables teams to collaborate on projects, manage tasks, and track progress with role-based access control.
+A full-stack team task management application with role-based access control, real-time dashboard, and modern UI.
 
-![TaskFlow Dashboard](https://img.shields.io/badge/status-production-green)
+![Status](https://img.shields.io/badge/status-production-brightgreen)
 ![License](https://img.shields.io/badge/license-MIT-blue)
 
-## Features
+## 🚀 Live Demo
 
-### Authentication & Authorization
-- JWT-based authentication with secure HTTP-only tokens
+| Service | URL |
+|---------|-----|
+| **Frontend** | [Vercel](https://team-task-manager-ruby-eight.vercel.app) |
+| **Backend API** | [Render](https://team-task-manager-kpws.onrender.com/api) |
+| **Database** | Railway MySQL |
+
+## ✨ Features
+
+### 🔐 Authentication & Authorization
+- JWT-based authentication with secure password hashing (bcrypt)
 - Role-based access control (Admin & Member roles)
-- Protected routes with automatic redirect
-- Password hashing with bcrypt
+- Protected routes with automatic token verification
+- Persistent login with local storage
 
-### Project Management
-- Create, edit, and delete projects (Admin)
-- Add and remove team members
-- View assigned projects with member avatars
-- Project search and filtering
-
-### Task Management
-- Create tasks with descriptions, due dates, and assignments
-- Kanban board and list views
-- Quick status updates (To Do → In Progress → Completed)
-- Task filtering by project, status, and overdue
-- Search tasks by title
-- Visual overdue indicators
-
-### Dashboard
-- Real-time statistics (Total, Completed, Pending, Overdue)
+### 📊 Dashboard
+- Real-time statistics: Total, Completed, Pending, Overdue tasks
 - Task status distribution with progress bars
 - Project workload visualization
 - Recent activity feed
 - Completion rate tracking
 
-### UI/UX
-- Responsive design (mobile, tablet, desktop)
-- Clean, modern interface with smooth animations
-- Skeleton loading states
-- Toast notifications
-- Keyboard shortcuts (Ctrl+K for search)
-- Accessible modals with focus trapping
+### 📁 Project Management
+- Create, edit, and delete projects (Admin)
+- Add and remove team members
+- Member avatars with color coding
+- Project search and filtering
+- Project detail view
 
-## Tech Stack
+### ✅ Task Management
+- Create tasks with title, description, due dates, and assignments
+- Kanban board and list views
+- Quick status updates (To Do → In Progress → Completed)
+- Filter tasks by project, status, and overdue
+- Search tasks by title
+- Visual overdue indicators with color coding
+- Task assignment to team members
+
+### 🎨 User Interface
+- Clean, modern design with consistent styling
+- Responsive layout (mobile, tablet, desktop)
+- Skeleton loading states
+- Toast notifications for actions
+- Keyboard shortcut (Ctrl+K for search)
+- Smooth animations and transitions
+- Hover-reveal action buttons
+
+## 🛠 Tech Stack
 
 ### Frontend
 - **React 18** with Vite
-- **Tailwind CSS** for utility-first styling
-- **React Router v6** for client-side routing
-- **Axios** for HTTP requests
-- **date-fns** for date formatting
-- **react-hot-toast** for notifications
+- **Tailwind CSS** - Utility-first CSS framework
+- **React Router v6** - Client-side routing
+- **Axios** - HTTP client with interceptors
+- **date-fns** - Date formatting
+- **react-hot-toast** - Toast notifications
 
 ### Backend
-- **Node.js** with **Express.js**
-- **MySQL** database with **mysql2** driver
-- **JWT** (jsonwebtoken) for authentication
-- **bcryptjs** for password hashing
-- **express-validator** for input validation
-- **express-rate-limit** for API protection
+- **Node.js** with Express.js
+- **MySQL** database with mysql2 driver
+- **JWT** (jsonwebtoken) - Authentication tokens
+- **bcryptjs** - Password hashing
+- **express-validator** - Input validation
+- **express-rate-limit** - API rate limiting
+- **morgan** - HTTP request logging
 
 ### Deployment
 - **Frontend:** Vercel
-- **Backend:** Railway
+- **Backend:** Render
 - **Database:** Railway MySQL
 
-## Project Structure
+## 📁 Project Structure
 team-task-manager/
-├── client/ # React frontend
+├── client/ # React Frontend
+│ ├── public/
+│ │ └── favicon.svg
 │ ├── src/
-│ │ ├── components/ # Reusable components
-│ │ │ ├── common/ # Button, Input, Modal, Badge, etc.
+│ │ ├── components/
+│ │ │ ├── common/ # Button, Input, Modal, Badge, Spinner, SearchBar
 │ │ │ ├── layout/ # Sidebar, Header, MainLayout
 │ │ │ ├── dashboard/ # StatsCard, RecentTasks, ProjectOverview
 │ │ │ ├── projects/ # ProjectCard, ProjectForm
 │ │ │ └── tasks/ # TaskCard, TaskForm, TaskList, TaskFilters
-│ │ ├── pages/ # Route pages
-│ │ │ ├── auth/ # Login, Signup
-│ │ │ ├── dashboard/ # Dashboard
-│ │ │ ├── projects/ # Projects
-│ │ │ └── tasks/ # Tasks
-│ │ ├── context/ # AuthContext, ToastContext
+│ │ ├── pages/
+│ │ │ ├── auth/ # LoginPage, SignupPage
+│ │ │ ├── dashboard/ # DashboardPage
+│ │ │ ├── projects/ # ProjectsPage
+│ │ │ └── tasks/ # TasksPage
+│ │ ├── context/ # AuthContext
 │ │ ├── services/ # API service layer
 │ │ ├── utils/ # Helpers, constants
-│ │ └── App.jsx # Root component
+│ │ ├── App.jsx
+│ │ └── main.jsx
 │ ├── tailwind.config.js
-│ └── vite.config.js
-├── server/ # Express backend
+│ ├── vite.config.js
+│ └── package.json
+│
+├── server/ # Express Backend
 │ ├── src/
 │ │ ├── config/ # Database, environment, CORS
-│ │ ├── controllers/ # Route handlers
-│ │ ├── middleware/ # Auth, RBAC, validation, errors
-│ │ ├── routes/ # API routes
+│ │ ├── controllers/ # Auth, project, task, dashboard controllers
+│ │ ├── middleware/ # Auth, RBAC, validation, error handler
+│ │ ├── routes/ # API route definitions
 │ │ ├── validators/ # Request validation rules
 │ │ └── utils/ # AppError, catchAsync
 │ ├── database/
 │ │ └── schema.sql # Database schema
-│ └── server.js # Entry point
+│ ├── server.js # Entry point
+│ └── package.json
+│
+├── .gitignore
+├── LICENSE
 └── README.md
 
 text
 
-## Quick Start
+## 🚀 Quick Start
 
 ### Prerequisites
-
-- Node.js 18+ 
+- Node.js 18+
 - MySQL 8+
 - npm or yarn
 
-### 1. Clone the Repository
-
+### 1. Clone Repository
 ```bash
-git clone https://github.com/yourusername/team-task-manager.git
+git clone https://github.com/sunnyvarun/team-task-manager.git
 cd team-task-manager
 2. Setup Database
 bash
 # Login to MySQL
 mysql -u root -p
 
-# Run the schema
-source server/database/schema.sql
+# Create database
+CREATE DATABASE IF NOT EXISTS team_task_manager;
+USE team_task_manager;
+
+# Run schema
+source server/database/schema.sql;
 exit;
 3. Setup Backend
 bash
@@ -135,11 +159,12 @@ cp .env.example .env
 # DB_USER=root
 # DB_PASSWORD=yourpassword
 # DB_NAME=team_task_manager
-# JWT_SECRET=your_secret_key_change_this
+# DB_PORT=3306
+# JWT_SECRET=your_secret_key
 
 # Start development server
 npm run dev
-The API will be running at http://localhost:5000
+API runs at: http://localhost:5000
 
 4. Setup Frontend
 bash
@@ -151,18 +176,18 @@ cp .env.example .env
 
 # Start development server
 npm run dev
-The app will be running at http://localhost:5173
+App runs at: http://localhost:5173
 
-5. Test the Application
+5. Test
 Open http://localhost:5173
 
-Sign up as an admin
+Sign up as admin
 
 Create projects and tasks
 
 Invite team members
 
-API Endpoints
+📡 API Endpoints
 Authentication
 Method	Endpoint	Description	Access
 POST	/api/auth/signup	Create account	Public
@@ -188,13 +213,13 @@ DELETE	/api/tasks/:id	Delete task	Admin
 Dashboard
 Method	Endpoint	Description	Access
 GET	/api/dashboard	Get dashboard stats	Private
-Query Parameters for GET /api/tasks
+Task Filter Query Parameters
 Parameter	Type	Description
 projectId	number	Filter by project
-status	string	Filter by status (todo, in_progress, completed)
-overdue	boolean	Filter overdue tasks
+status	string	todo, in_progress, completed
+overdue	boolean	Show overdue tasks only
 search	string	Search by title
-Environment Variables
+🔐 Environment Variables
 Backend (server/.env)
 env
 PORT=5000
@@ -212,29 +237,17 @@ RATE_LIMIT_MAX=100
 Frontend (client/.env)
 env
 VITE_API_URL=http://localhost:5000/api
-Deployment
-See DEPLOYMENT.md for detailed deployment instructions.
+🎨 Color Theme
+The application uses a modern, professional color palette:
 
-Quick Deploy Links
-Frontend (Vercel): https://vercel.com/button
-
-Backend (Railway): https://railway.app/button.svg
-
-Demo Credentials
+Color	Usage
+Brand Blue (#5c7cfa)	Primary actions, active states
+Success Green (#40c057)	Completed tasks, success states
+Warning Amber (#fcc419)	Pending tasks, warnings
+Danger Red (#fa5252)	Overdue tasks, delete actions
+Accent Purple (#845ef7)	Secondary accents
+Surface Gray (#f8f9fa → #212529)	Backgrounds, text
+👥 Demo Credentials
 Role	Email	Password
-Admin	admin@example.com	password123
-Member	john@example.com	password123
-License
-MIT License - see LICENSE file for details.
-
-Author
-Your Name - GitHub
-
-Acknowledgments
-React
-
-Tailwind CSS
-
-Express.js
-
-MySQL
+Admin	admin@test.com	password123
+Member	member@test.com	password123
