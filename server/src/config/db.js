@@ -1,29 +1,35 @@
 const mysql = require('mysql2/promise');
 const env = require('./env');
 
-// Create connection pool
+console.log('DB Config:', {
+    host: env.DB.HOST,
+    user: env.DB.USER,
+    database: env.DB.NAME,
+    port: env.DB.PORT
+});
+
 const pool = mysql.createPool({
     host: env.DB.HOST,
     user: env.DB.USER,
     password: env.DB.PASSWORD,
     database: env.DB.NAME,
-    port: env.DB.PORT,
+    port: parseInt(env.DB.PORT),
     waitForConnections: true,
     connectionLimit: 10,
     queueLimit: 0,
-    enableKeepAlive: true,
-    keepAliveInitialDelay: 0
+    connectTimeout: 30000
 });
 
-// Test connection
 const testConnection = async () => {
     try {
         const connection = await pool.getConnection();
         console.log('✅ Database connected successfully');
         connection.release();
+        return true;
     } catch (error) {
         console.error('❌ Database connection failed:', error.message);
-        process.exit(1);
+        console.error('Full error:', error);
+        return false;
     }
 };
 
