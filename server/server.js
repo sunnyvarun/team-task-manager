@@ -4,44 +4,45 @@ const env = require('./src/config/env');
 
 // Handle uncaught exceptions
 process.on('uncaughtException', (err) => {
-    console.error('UNCAUGHT EXCEPTION! 💥 Shutting down...');
-    console.error(err.name, err.message);
-    process.exit(1);
+    console.error('UNCAUGHT EXCEPTION!', err.name, err.message);
+    // DON'T exit - let Railway handle it
 });
 
 // Start server
 const startServer = async () => {
-    try {
-        // Test database connection
-        await testConnection();
-        
-        // Start listening
-        const server = app.listen(env.PORT, () => {
-            console.log(`✅ Server running in ${env.NODE_ENV} mode on port ${env.PORT}`);
-            console.log(`📍 API available at http://localhost:${env.PORT}/api`);
-            console.log(`❤️  Health check at http://localhost:${env.PORT}/health`);
-        });
+    // Test database connection but DON'T crash if it fails
+    const dbConnected = await testConnection();
+    
+    if (!dbConnected) {
+        console.log('⚠️  Database not connected. Will retry...');
+    }
+    
+    // Start the server regardless of database status
+    const server = app.listen(env.PORT, '0.0.0.0', () => {
+        console.log(`✅ Server running on port ${env.PORT}`);
+        console.log(`📍 Health check available at /health`);
+    });
 
-        // Handle unhandled promise rejections
-        process.on('unhandledRejection', (err) => {
-            console.error('UNHANDLED REJECTION! 💥 Shutting down...');
-            console.error(err.name, err.message);
-            server.close(() => {
-                process.exit(1);
-            });
-        });
+    // Handle unhandled promise rejections
+    process.on('unhandledRejection', (err) => {
+        console.error('UNHANDLED REJECTION!', err.name, err.message);
+        // Don't crash
+    });
 
-        // Handle SIGTERM signal
-        process.on('SIGTERM', () => {
-            console.log('👋 SIGTERM RECEIVED. Shutting down gracefully');
-            server.close(() => {
-                console.log('💥 Process terminated!');
-            });
+    // Handle SIGTERM signal
+    process.on('SIGTERM', () => {
+        console.log('SIGTERM received. Shutting down gracefully');
+        server.close(() => {
+            console.log('Process terminated');
         });
+    });
 
-    } catch (error) {
-        console.error('Failed to start server:', error);
-        process.exit(1);
+    // Retry database connection in background
+    if (!dbConnected) {
+        setTimeout(async () => {
+            console.log('🔄 Retrying database connection...');
+            await testConnection();
+        }, 5000);
     }
 };
 
